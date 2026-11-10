@@ -91,7 +91,7 @@ public final class ConstructorFieldInitRule implements Rule {
             /// Names assigned (`x = ...` or `this.x = ...`) in a constructor body.
             private Set<String> assignedNames(MethodTree constructor) {
                 Set<String> names = new HashSet<>();
-                class AssignmentScanner extends TreeScanner<Void, Void> {
+                final class AssignmentScanner extends TreeScanner<Void, Void> {
                     @Override
                     public Void visitAssignment(AssignmentTree node, Void unused) {
                         Tree variable = node.getVariable();

@@ -39,7 +39,7 @@ public final class NoWaitNotifyOnThisRule implements Rule {
         if (context.compilationUnit().isEmpty()) {
             return violations;
         }
-        class InvocationScanner extends TreeScanner<Void, Void> {
+        final class InvocationScanner extends TreeScanner<Void, Void> {
             @Override
             public Void visitMethodInvocation(MethodInvocationTree node, Void unused) {
                 Tree select = node.getMethodSelect();

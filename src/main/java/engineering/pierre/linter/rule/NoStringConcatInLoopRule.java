@@ -48,7 +48,7 @@ public final class NoStringConcatInLoopRule implements Rule {
         if (context.compilationUnit().isEmpty()) {
             return violations;
         }
-        class LoopScanner extends TreeScanner<Void, Void> {
+        final class LoopScanner extends TreeScanner<Void, Void> {
             private final Set<String> stringVariables;
             private int loopDepth;
 
@@ -81,7 +81,7 @@ public final class NoStringConcatInLoopRule implements Rule {
             public Void visitMethod(MethodTree node, Void unused) {
                 Set<String> locals = new HashSet<>();
                 if (node.getBody() != null) {
-                    class LocalVarScanner extends TreeScanner<Void, Void> {
+                    final class LocalVarScanner extends TreeScanner<Void, Void> {
                         @Override
                         public Void visitVariable(VariableTree var, Void unused) {
                             if (TypeNames.simpleName(var.getType()).equals("String")) {

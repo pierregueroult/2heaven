@@ -32,7 +32,7 @@ public final class NoUncheckedCastRule implements Rule {
         if (context.compilationUnit().isEmpty()) {
             return violations;
         }
-        class CastScanner extends TreeScanner<Void, Void> {
+        final class CastScanner extends TreeScanner<Void, Void> {
             @Override
             public Void visitTypeCast(TypeCastTree node, Void unused) {
                 if (node.getType() instanceof ParameterizedTypeTree parameterized) {

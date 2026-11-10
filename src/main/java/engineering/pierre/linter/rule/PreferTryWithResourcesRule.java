@@ -34,12 +34,12 @@ public final class PreferTryWithResourcesRule implements Rule {
         if (context.compilationUnit().isEmpty()) {
             return violations;
         }
-        class TryScanner extends TreeScanner<Void, Void> {
+        final class TryScanner extends TreeScanner<Void, Void> {
             @Override
             public Void visitTry(TryTree node, Void unused) {
                 BlockTree finallyBlock = node.getFinallyBlock();
                 if (finallyBlock != null) {
-                    class CloseScanner extends TreeScanner<Void, Void> {
+                    final class CloseScanner extends TreeScanner<Void, Void> {
                         @Override
                         public Void visitMethodInvocation(MethodInvocationTree invocation, Void unused) {
                             if (invocation.getMethodSelect() instanceof MemberSelectTree select

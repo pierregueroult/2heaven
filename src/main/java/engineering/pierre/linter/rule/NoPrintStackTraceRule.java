@@ -31,7 +31,7 @@ public final class NoPrintStackTraceRule implements Rule {
         if (context.compilationUnit().isEmpty()) {
             return violations;
         }
-        class InvocationScanner extends TreeScanner<Void, Void> {
+        final class InvocationScanner extends TreeScanner<Void, Void> {
             @Override
             public Void visitMethodInvocation(MethodInvocationTree node, Void unused) {
                 if (node.getMethodSelect() instanceof MemberSelectTree select

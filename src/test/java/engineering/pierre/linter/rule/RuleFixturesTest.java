@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /// `src/test/resources/fixtures/<rule-name>/`: `bad.java` is flagged by the
 /// rule, `good.java` is not. The same files are meant to be reused by the
 /// documentation to show what is good and what is not.
-class RuleFixturesTest {
+final class RuleFixturesTest {
 
     @Test
     void everyRuleHasFixturesAndTheyBehaveAsExpected() {

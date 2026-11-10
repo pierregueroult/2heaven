@@ -17,6 +17,7 @@ import engineering.pierre.linter.rule.NoSwallowInterruptedExceptionRule;
 import engineering.pierre.linter.rule.NoUncheckedCastRule;
 import engineering.pierre.linter.rule.NoWaitNotifyOnThisRule;
 import engineering.pierre.linter.rule.NonDelegatingConstructorSuperLastRule;
+import engineering.pierre.linter.rule.PreferFinalClassRule;
 import engineering.pierre.linter.rule.PreferTryWithResourcesRule;
 import engineering.pierre.linter.rule.RequireNonNullObjectParamRule;
 
@@ -62,7 +63,8 @@ public final class Linter {
                 new ConstructorFieldInitRule(),
                 new NoWaitNotifyOnThisRule(),
                 new NoBoxedLongOrIntRule(),
-                new NoStreamOfIntegerRule()
+                new NoStreamOfIntegerRule(),
+                new PreferFinalClassRule()
         ));
     }
 

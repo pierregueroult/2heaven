@@ -37,7 +37,7 @@ public final class NoMutableStaticFieldRule implements Rule {
         if (context.compilationUnit().isEmpty()) {
             return violations;
         }
-        class ClassScanner extends TreeScanner<Void, Void> {
+        final class ClassScanner extends TreeScanner<Void, Void> {
             @Override
             public Void visitClass(ClassTree node, Void unused) {
                 if (node.getKind() != Tree.Kind.ENUM) {

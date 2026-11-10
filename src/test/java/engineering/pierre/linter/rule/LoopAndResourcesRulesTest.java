@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /// Tests for no-string-concat-in-loop and prefer-try-with-resources.
-class LoopAndResourcesRulesTest {
+final class LoopAndResourcesRulesTest {
 
     private final Path tempDir;
 
