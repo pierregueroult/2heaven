@@ -33,7 +33,7 @@ no installation, no code in the consuming project:
 
 ```bash
 curl -sL -o 2heaven.jar \
-  https://github.com/pierregueroult/2heaven/releases/latest/download/2heaven-0.1.0-SNAPSHOT.jar
+  https://github.com/pierregueroult/2heaven/releases/latest/download/2heaven-0.2.0.jar
 java -jar 2heaven.jar src/main/java
 ```
 
@@ -47,11 +47,11 @@ In GitHub Actions:
 ```yaml
 - uses: actions/setup-java@v4
   with: { distribution: temurin, java-version: 27 }
-- run: curl -sL -o 2heaven.jar https://github.com/pierregueroult/2heaven/releases/latest/download/2heaven-0.1.0-SNAPSHOT.jar
+- run: curl -sL -o 2heaven.jar https://github.com/pierregueroult/2heaven/releases/latest/download/2heaven-0.2.0.jar
 - run: java -jar 2heaven.jar src/main/java
 ```
 
-Pin the URL to a specific tag (e.g. `releases/download/v0.1.0/...`) for
+Pin the URL to a specific tag (e.g. `releases/download/v0.2.0/...`) for
 reproducible builds. Requires Java 27+ on the runner.
 
 ## Use as a library
@@ -60,7 +60,7 @@ reproducible builds. Requires Java 27+ on the runner.
 <dependency>
     <groupId>engineering.pierre</groupId>
     <artifactId>2heaven</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
 </dependency>
 ```
 
