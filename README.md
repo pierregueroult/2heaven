@@ -28,6 +28,11 @@ project required.
 | `no-boxed-long-or-int` | WARNING | Boxed `Integer`/`Long` where `int`/`long` can be used |
 | `no-stream-of-integer` | WARNING | `Stream<Integer>` (even as an intermediate step) instead of `IntStream` |
 
+Each rule ships a fixture pair under `src/test/resources/fixtures/<rule-name>/`
+(`bad.java` is flagged, `good.java` is not). `RuleFixturesTest` verifies every
+rule against its pair, and the same files are the source for rule examples in
+the documentation.
+
 ## Use as a command-line tool (recommended for CI)
 
 Download the jar from the [latest release](../../releases/latest) and run it —
