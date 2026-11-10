@@ -3,12 +3,14 @@ package engineering.pierre.linter;
 import engineering.pierre.linter.rule.ConstructorFieldInitRule;
 import engineering.pierre.linter.rule.EqualsWithoutHashCodeRule;
 import engineering.pierre.linter.rule.NoAnonymousClassForLambdaRule;
+import engineering.pierre.linter.rule.NoBoxedLongOrIntRule;
 import engineering.pierre.linter.rule.NoCatchGenericExceptionRule;
 import engineering.pierre.linter.rule.NoDeprecatedThreadControlRule;
 import engineering.pierre.linter.rule.NoEmptyCatchRule;
 import engineering.pierre.linter.rule.NoMutableStaticFieldRule;
 import engineering.pierre.linter.rule.NoPrintStackTraceRule;
 import engineering.pierre.linter.rule.NoRawTypesRule;
+import engineering.pierre.linter.rule.NoStreamOfIntegerRule;
 import engineering.pierre.linter.rule.NoStreamSideEffectsRule;
 import engineering.pierre.linter.rule.NoStringConcatInLoopRule;
 import engineering.pierre.linter.rule.NoSwallowInterruptedExceptionRule;
@@ -58,7 +60,9 @@ public final class Linter {
                 new NoAnonymousClassForLambdaRule(),
                 new NoMutableStaticFieldRule(),
                 new ConstructorFieldInitRule(),
-                new NoWaitNotifyOnThisRule()
+                new NoWaitNotifyOnThisRule(),
+                new NoBoxedLongOrIntRule(),
+                new NoStreamOfIntegerRule()
         ));
     }
 
