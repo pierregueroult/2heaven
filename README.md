@@ -1,6 +1,6 @@
-# fx-lint
+# 2heaven
 
-A Java linter library with 16 built-in rules, usable both as a **library** and as a
+A Java linter library (Maven artifact `engineering.pierre:fx-lint`) with 16 built-in rules, usable both as a **library** and as a
 **standalone command-line jar** — no build-tool plugin or code in the consuming
 project required.
 
@@ -84,4 +84,4 @@ jar and attaches it to a GitHub release.
 
 ## Self-linting
 
-This repository runs fx-lint on its own sources in CI (`.github/workflows/lint.yml`).
+This repository runs its own linter on its sources in CI (`.github/workflows/lint.yml`).
