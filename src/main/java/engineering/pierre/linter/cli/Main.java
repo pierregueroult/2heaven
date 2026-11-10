@@ -2,6 +2,7 @@ package engineering.pierre.linter.cli;
 
 import engineering.pierre.linter.Linter;
 import engineering.pierre.linter.LintViolation;
+import engineering.pierre.linter.Severity;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -14,7 +15,8 @@ import java.util.stream.Stream;
 /// recursively for `.java` files) with all built-in rules.
 ///
 /// Usage: `java -jar fx-lint.jar <path>...`
-/// Exits with code 1 when any violation is found, 2 on usage or IO errors.
+/// Exits with code 1 when any ERROR-severity violation is found (warnings and
+/// info are reported but do not fail), 2 on usage or IO errors.
 public final class Main {
 
     private Main() {
@@ -32,8 +34,12 @@ public final class Main {
         }
         List<LintViolation> violations = Linter.withBuiltInRules().lint(files);
         violations.forEach(v -> System.out.println(v.toString()));
-        System.out.printf("%d violation(s) in %d file(s)%n", violations.size(), files.size());
-        if (!violations.isEmpty()) {
+        long errors = violations.stream()
+                .filter(v -> v.severity() == Severity.ERROR)
+                .count();
+        System.out.printf("%d violation(s) (%d error(s)) in %d file(s)%n",
+                violations.size(), errors, files.size());
+        if (errors > 0) {
             System.exit(1);
         }
     }
