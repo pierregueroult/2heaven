@@ -22,5 +22,5 @@ jobs:
       - name: Build executable jar
         run: mvn -q package -DskipTests
 
-      - name: Run fx-lint on its own sources
-        run: java -jar target/fx-lint-*.jar src/main/java
+      - name: Run 2heaven on its own sources
+        run: java -jar target/2heaven-*.jar src/main/java

@@ -1,6 +1,6 @@
 # 2heaven
 
-A Java linter library (Maven artifact `engineering.pierre:fx-lint`) with 16 built-in rules, usable both as a **library** and as a
+A Java linter library (Maven artifact `engineering.pierre:2heaven`) with 16 built-in rules, usable both as a **library** and as a
 **standalone command-line jar** — no build-tool plugin or code in the consuming
 project required.
 
@@ -32,9 +32,9 @@ Download the jar from the [latest release](../../releases/latest) and run it —
 no installation, no code in the consuming project:
 
 ```bash
-curl -sL -o fx-lint.jar \
-  https://github.com/pierregueroult/2heaven/releases/latest/download/fx-lint-0.1.0-SNAPSHOT.jar
-java -jar fx-lint.jar src/main/java
+curl -sL -o 2heaven.jar \
+  https://github.com/pierregueroult/2heaven/releases/latest/download/2heaven-0.1.0-SNAPSHOT.jar
+java -jar 2heaven.jar src/main/java
 ```
 
 - Accepts files and/or directories (directories are searched recursively for `.java`).
@@ -47,8 +47,8 @@ In GitHub Actions:
 ```yaml
 - uses: actions/setup-java@v4
   with: { distribution: temurin, java-version: 27 }
-- run: curl -sL -o fx-lint.jar https://github.com/pierregueroult/2heaven/releases/latest/download/fx-lint-0.1.0-SNAPSHOT.jar
-- run: java -jar fx-lint.jar src/main/java
+- run: curl -sL -o 2heaven.jar https://github.com/pierregueroult/2heaven/releases/latest/download/2heaven-0.1.0-SNAPSHOT.jar
+- run: java -jar 2heaven.jar src/main/java
 ```
 
 Pin the URL to a specific tag (e.g. `releases/download/v0.1.0/...`) for
@@ -59,7 +59,7 @@ reproducible builds. Requires Java 27+ on the runner.
 ```xml
 <dependency>
     <groupId>engineering.pierre</groupId>
-    <artifactId>fx-lint</artifactId>
+    <artifactId>2heaven</artifactId>
     <version>0.1.0</version>
 </dependency>
 ```
