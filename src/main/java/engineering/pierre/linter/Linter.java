@@ -1,24 +1,41 @@
 package engineering.pierre.linter;
 
 import engineering.pierre.linter.rule.ConstructorFieldInitRule;
+import engineering.pierre.linter.rule.EnumSwitchMissingDefaultRule;
+import engineering.pierre.linter.rule.EqualsOverloadNotOverrideRule;
 import engineering.pierre.linter.rule.EqualsWithoutHashCodeRule;
 import engineering.pierre.linter.rule.NoAnonymousClassForLambdaRule;
 import engineering.pierre.linter.rule.NoBoxedLongOrIntRule;
+import engineering.pierre.linter.rule.NoCatchAndRethrowSameRule;
 import engineering.pierre.linter.rule.NoCatchGenericExceptionRule;
 import engineering.pierre.linter.rule.NoDeprecatedThreadControlRule;
 import engineering.pierre.linter.rule.NoEmptyCatchRule;
+import engineering.pierre.linter.rule.NoEnumValuesInLoopRule;
+import engineering.pierre.linter.rule.NoExtendsCollectionRule;
+import engineering.pierre.linter.rule.NoMapGetNullCheckRule;
+import engineering.pierre.linter.rule.NoMutableHashcodeFieldsRule;
 import engineering.pierre.linter.rule.NoMutableStaticFieldRule;
+import engineering.pierre.linter.rule.NoNullCollectionElementRule;
+import engineering.pierre.linter.rule.NoNullCollectionReturnRule;
 import engineering.pierre.linter.rule.NoPrintStackTraceRule;
+import engineering.pierre.linter.rule.NoPublicMutableFieldsRule;
 import engineering.pierre.linter.rule.NoRawTypesRule;
+import engineering.pierre.linter.rule.NoReferenceIdentityComparisonRule;
+import engineering.pierre.linter.rule.NoStreamJustForForEachRule;
 import engineering.pierre.linter.rule.NoStreamOfIntegerRule;
 import engineering.pierre.linter.rule.NoStreamSideEffectsRule;
+import engineering.pierre.linter.rule.NoStreamWithoutTerminalOpRule;
 import engineering.pierre.linter.rule.NoStringConcatInLoopRule;
 import engineering.pierre.linter.rule.NoSwallowInterruptedExceptionRule;
 import engineering.pierre.linter.rule.NoUncheckedCastRule;
 import engineering.pierre.linter.rule.NoWaitNotifyOnThisRule;
+import engineering.pierre.linter.rule.NoWaitOutsideWhileLoopRule;
 import engineering.pierre.linter.rule.NonDelegatingConstructorSuperLastRule;
+import engineering.pierre.linter.rule.PreferDefensiveCopyRule;
 import engineering.pierre.linter.rule.PreferFinalClassRule;
+import engineering.pierre.linter.rule.PreferInstanceofPatternRule;
 import engineering.pierre.linter.rule.PreferTryWithResourcesRule;
+import engineering.pierre.linter.rule.RequireFinalLockObjectRule;
 import engineering.pierre.linter.rule.RequireNonNullObjectParamRule;
 
 import java.nio.file.Path;
@@ -64,12 +81,29 @@ public final class Linter {
                 new NoWaitNotifyOnThisRule(),
                 new NoBoxedLongOrIntRule(),
                 new NoStreamOfIntegerRule(),
-                new PreferFinalClassRule()
+                new PreferFinalClassRule(),
+                new NoWaitOutsideWhileLoopRule(),
+                new RequireFinalLockObjectRule(),
+                new NoReferenceIdentityComparisonRule(),
+                new NoPublicMutableFieldsRule(),
+                new NoExtendsCollectionRule(),
+                new EqualsOverloadNotOverrideRule(),
+                new NoStreamJustForForEachRule(),
+                new NoStreamWithoutTerminalOpRule(),
+                new NoMapGetNullCheckRule(),
+                new NoNullCollectionElementRule(),
+                new NoNullCollectionReturnRule(),
+                new PreferDefensiveCopyRule(),
+                new NoEnumValuesInLoopRule(),
+                new PreferInstanceofPatternRule(),
+                new NoCatchAndRethrowSameRule(),
+                new EnumSwitchMissingDefaultRule(),
+                new NoMutableHashcodeFieldsRule()
         ));
     }
 
     public List<Rule> rules() {
-        return rules;
+        return List.copyOf(rules);
     }
 
     public List<LintViolation> lint(Path file) {
