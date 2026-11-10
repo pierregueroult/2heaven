@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /// Tests for no-raw-types and no-unchecked-cast.
-class RawTypesAndCastsTest {
+final class RawTypesAndCastsTest {
 
     private final Path tempDir;
 

@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /// Tests for no-deprecated-thread-control.
-class ThreadRulesTest {
+final class ThreadRulesTest {
 
     private final Path tempDir;
     private final Rule rule;

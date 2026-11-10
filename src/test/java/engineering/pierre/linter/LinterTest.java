@@ -10,7 +10,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class LinterTest {
+final class LinterTest {
 
     private final Path tempDir;
 
@@ -98,13 +98,13 @@ class LinterTest {
     @Test
     void resultsAreSortedAcrossFiles() throws IOException {
         Path b = writeSource("B.java", """
-                class B {
+                final class B {
                     public void run(Object input) {
                     }
                 }
                 """);
         Path a = writeSource("A.java", """
-                class A {
+                final class A {
                     public void run(Object input) {
                     }
                 }
@@ -119,7 +119,7 @@ class LinterTest {
 
     @Test
     void unparsableFileDoesNotCrashAstRules() throws IOException {
-        Path file = writeSource("Broken.java", "class Broken {\n");
+        Path file = writeSource("Broken.java", "}{\n");
 
         List<LintViolation> violations = Linter.withBuiltInRules().lint(file);
 

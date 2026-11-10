@@ -13,7 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class NoWaitNotifyOnThisRuleTest {
+final class NoWaitNotifyOnThisRuleTest {
 
     private final Path tempDir;
     private final NoWaitNotifyOnThisRule rule;

@@ -55,7 +55,7 @@ public final class NoStreamSideEffectsRule implements Rule {
         if (context.compilationUnit().isEmpty()) {
             return violations;
         }
-        class PipelineScanner extends TreeScanner<Void, Void> {
+        final class PipelineScanner extends TreeScanner<Void, Void> {
             @Override
             public Void visitMethodInvocation(MethodInvocationTree node, Void unused) {
                 if (node.getMethodSelect() instanceof MemberSelectTree select
@@ -154,7 +154,7 @@ public final class NoStreamSideEffectsRule implements Rule {
         for (VariableTree param : lambda.getParameters()) {
             names.add(param.getName().toString());
         }
-        class BodyScanner extends TreeScanner<Void, Void> {
+        final class BodyScanner extends TreeScanner<Void, Void> {
             @Override
             public Void visitVariable(VariableTree node, Void unused) {
                 names.add(node.getName().toString());

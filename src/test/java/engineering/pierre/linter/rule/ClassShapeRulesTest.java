@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /// Tests for equals-without-hashcode, no-anonymous-class-for-lambda and
 /// no-mutable-static-field.
-class ClassShapeRulesTest {
+final class ClassShapeRulesTest {
 
     private final Path tempDir;
 

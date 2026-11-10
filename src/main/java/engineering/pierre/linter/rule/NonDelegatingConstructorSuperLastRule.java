@@ -44,7 +44,7 @@ public final class NonDelegatingConstructorSuperLastRule implements Rule {
         if (context.compilationUnit().isEmpty()) {
             return violations;
         }
-        class ConstructorScanner extends TreeScanner<Void, Void> {
+        final class ConstructorScanner extends TreeScanner<Void, Void> {
             private final Deque<Tree.Kind> enclosingClassKinds;
 
             ConstructorScanner() {

@@ -38,7 +38,7 @@ public final class RequireNonNullObjectParamRule implements Rule {
         if (context.compilationUnit().isEmpty()) {
             return violations;
         }
-        class MethodScanner extends TreeScanner<Void, Void> {
+        final class MethodScanner extends TreeScanner<Void, Void> {
             @Override
             public Void visitMethod(MethodTree node, Void unused) {
                 checkMethod(context, node, violations);
@@ -82,7 +82,7 @@ public final class RequireNonNullObjectParamRule implements Rule {
 
     private static boolean hasRequireNonNull(BlockTree body, String paramName) {
         boolean[] found = {false};
-        class RequireNonNullScanner extends TreeScanner<Void, Void> {
+        final class RequireNonNullScanner extends TreeScanner<Void, Void> {
             @Override
             public Void visitMethodInvocation(MethodInvocationTree node, Void unused) {
                 if (isRequireNonNullOn(node, paramName)) {

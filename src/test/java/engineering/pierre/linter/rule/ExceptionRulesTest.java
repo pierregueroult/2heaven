@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /// Tests for the exception-related rules: no-empty-catch,
 /// no-catch-generic-exception, no-print-stack-trace,
 /// no-swallow-interrupted-exception.
-class ExceptionRulesTest {
+final class ExceptionRulesTest {
 
     private final Path tempDir;
 

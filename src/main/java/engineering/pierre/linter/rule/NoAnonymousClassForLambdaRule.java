@@ -38,7 +38,7 @@ public final class NoAnonymousClassForLambdaRule implements Rule {
         if (context.compilationUnit().isEmpty()) {
             return violations;
         }
-        class NewClassScanner extends TreeScanner<Void, Void> {
+        final class NewClassScanner extends TreeScanner<Void, Void> {
             @Override
             public Void visitNewClass(NewClassTree node, Void unused) {
                 ClassTree body = node.getClassBody();

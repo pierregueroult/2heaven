@@ -30,7 +30,7 @@ public final class NoEmptyCatchRule implements Rule {
         if (context.compilationUnit().isEmpty()) {
             return violations;
         }
-        class CatchScanner extends TreeScanner<Void, Void> {
+        final class CatchScanner extends TreeScanner<Void, Void> {
             @Override
             public Void visitCatch(CatchTree node, Void unused) {
                 if (node.getBlock().getStatements().isEmpty()) {

@@ -13,7 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class NonDelegatingConstructorSuperLastRuleTest {
+final class NonDelegatingConstructorSuperLastRuleTest {
 
     private final Path tempDir;
     private final NonDelegatingConstructorSuperLastRule rule;

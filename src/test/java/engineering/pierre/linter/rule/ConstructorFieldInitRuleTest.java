@@ -13,7 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class ConstructorFieldInitRuleTest {
+final class ConstructorFieldInitRuleTest {
 
     private final Path tempDir;
     private final ConstructorFieldInitRule rule;
