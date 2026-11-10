@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 /// Command-line entry point: lints the given files or directories (searched
 /// recursively for `.java` files) with all built-in rules.
 ///
-/// Usage: `java -jar fx-lint.jar <path>...`
+/// Usage: `java -jar 2heaven.jar <path>...`
 /// Exits with code 1 when any ERROR-severity violation is found (warnings and
 /// info are reported but do not fail), 2 on usage or IO errors.
 public final class Main {
@@ -24,7 +24,7 @@ public final class Main {
 
     public static void main(String[] args) {
         if (args.length == 0) {
-            System.err.println("Usage: java -jar fx-lint.jar <file-or-directory>...");
+            System.err.println("Usage: java -jar 2heaven.jar <file-or-directory>...");
             System.exit(2);
         }
         List<Path> files = collectJavaFiles(args);

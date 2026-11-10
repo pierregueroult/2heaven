@@ -25,4 +25,4 @@ jobs:
       - name: Create release with jar asset
         uses: softprops/action-gh-release@v2
         with:
-          files: target/fx-lint-*.jar
+          files: target/2heaven-*.jar
