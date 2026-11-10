@@ -1,0 +1,3 @@
+class Good {
+    static final int MAX = 10;
+}
