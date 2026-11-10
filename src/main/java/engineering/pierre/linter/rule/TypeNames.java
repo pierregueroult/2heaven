@@ -11,6 +11,7 @@ import com.sun.source.tree.Tree;
 final class TypeNames {
 
     private TypeNames() {
+        super();
     }
 
     /// Simple name of a type tree: `String`, `java.lang.String` and

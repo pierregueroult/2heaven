@@ -31,7 +31,7 @@ public final class NoPrintStackTraceRule implements Rule {
         if (context.compilationUnit().isEmpty()) {
             return violations;
         }
-        new TreeScanner<Void, Void>() {
+        class InvocationScanner extends TreeScanner<Void, Void> {
             @Override
             public Void visitMethodInvocation(MethodInvocationTree node, Void unused) {
                 if (node.getMethodSelect() instanceof MemberSelectTree select
@@ -41,7 +41,8 @@ public final class NoPrintStackTraceRule implements Rule {
                 }
                 return super.visitMethodInvocation(node, unused);
             }
-        }.scan(context.compilationUnit().get(), null);
+        }
+        new InvocationScanner().scan(context.compilationUnit().get(), null);
         return violations;
     }
 }

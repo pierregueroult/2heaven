@@ -48,9 +48,15 @@ public final class NoStringConcatInLoopRule implements Rule {
         if (context.compilationUnit().isEmpty()) {
             return violations;
         }
-        new TreeScanner<Void, Void>() {
-            private final Set<String> stringVariables = new HashSet<>();
-            private int loopDepth = 0;
+        class LoopScanner extends TreeScanner<Void, Void> {
+            private final Set<String> stringVariables;
+            private int loopDepth;
+
+            LoopScanner() {
+                this.stringVariables = new HashSet<>();
+                this.loopDepth = 0;
+                super();
+            }
 
             @Override
             public Void visitClass(ClassTree node, Void unused) {
@@ -75,7 +81,7 @@ public final class NoStringConcatInLoopRule implements Rule {
             public Void visitMethod(MethodTree node, Void unused) {
                 Set<String> locals = new HashSet<>();
                 if (node.getBody() != null) {
-                    new TreeScanner<Void, Void>() {
+                    class LocalVarScanner extends TreeScanner<Void, Void> {
                         @Override
                         public Void visitVariable(VariableTree var, Void unused) {
                             if (TypeNames.simpleName(var.getType()).equals("String")) {
@@ -83,7 +89,8 @@ public final class NoStringConcatInLoopRule implements Rule {
                             }
                             return super.visitVariable(var, unused);
                         }
-                    }.scan(node.getBody(), null);
+                    }
+                    new LocalVarScanner().scan(node.getBody(), null);
                 }
                 stringVariables.addAll(locals);
                 try {
@@ -160,7 +167,8 @@ public final class NoStringConcatInLoopRule implements Rule {
                 return variable instanceof IdentifierTree id
                         && stringVariables.contains(id.getName().toString());
             }
-        }.scan(context.compilationUnit().get(), null);
+        }
+        new LoopScanner().scan(context.compilationUnit().get(), null);
         return violations;
     }
 }

@@ -55,7 +55,7 @@ public final class NoStreamSideEffectsRule implements Rule {
         if (context.compilationUnit().isEmpty()) {
             return violations;
         }
-        new TreeScanner<Void, Void>() {
+        class PipelineScanner extends TreeScanner<Void, Void> {
             @Override
             public Void visitMethodInvocation(MethodInvocationTree node, Void unused) {
                 if (node.getMethodSelect() instanceof MemberSelectTree select
@@ -74,7 +74,8 @@ public final class NoStreamSideEffectsRule implements Rule {
                 }
                 return super.visitMethodInvocation(node, unused);
             }
-        }.scan(context.compilationUnit().get(), null);
+        }
+        new PipelineScanner().scan(context.compilationUnit().get(), null);
         return violations;
     }
 
@@ -153,13 +154,14 @@ public final class NoStreamSideEffectsRule implements Rule {
         for (VariableTree param : lambda.getParameters()) {
             names.add(param.getName().toString());
         }
-        new TreeScanner<Void, Void>() {
+        class BodyScanner extends TreeScanner<Void, Void> {
             @Override
             public Void visitVariable(VariableTree node, Void unused) {
                 names.add(node.getName().toString());
                 return super.visitVariable(node, unused);
             }
-        }.scan(lambda.getBody(), null);
+        }
+        new BodyScanner().scan(lambda.getBody(), null);
         return names;
     }
 }
