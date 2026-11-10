@@ -5,7 +5,6 @@ import engineering.pierre.linter.LintViolation;
 import engineering.pierre.linter.Rule;
 import engineering.pierre.linter.SourceParser;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,10 +17,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /// Tests for no-deprecated-thread-control.
 class ThreadRulesTest {
 
-    @TempDir
-    Path tempDir;
+    private final Path tempDir;
+    private final Rule rule;
 
-    private final Rule rule = new NoDeprecatedThreadControlRule();
+    ThreadRulesTest() throws IOException {
+        this.tempDir = Files.createTempDirectory("lint-test");
+        this.rule = new NoDeprecatedThreadControlRule();
+        super();
+    }
 
     private List<LintViolation> check(String source) throws IOException {
         Path file = tempDir.resolve("Sample.java");

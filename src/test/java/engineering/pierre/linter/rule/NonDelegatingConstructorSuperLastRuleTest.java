@@ -4,7 +4,6 @@ import engineering.pierre.linter.LintContext;
 import engineering.pierre.linter.LintViolation;
 import engineering.pierre.linter.SourceParser;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,10 +15,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class NonDelegatingConstructorSuperLastRuleTest {
 
-    @TempDir
-    Path tempDir;
+    private final Path tempDir;
+    private final NonDelegatingConstructorSuperLastRule rule;
 
-    private final NonDelegatingConstructorSuperLastRule rule = new NonDelegatingConstructorSuperLastRule();
+    NonDelegatingConstructorSuperLastRuleTest() throws IOException {
+        this.tempDir = Files.createTempDirectory("lint-test");
+        this.rule = new NonDelegatingConstructorSuperLastRule();
+        super();
+    }
 
     private List<LintViolation> check(String source) throws IOException {
         Path file = tempDir.resolve("Sample.java");

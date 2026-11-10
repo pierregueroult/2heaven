@@ -23,4 +23,4 @@ jobs:
         run: mvn -q package -DskipTests
 
       - name: Run 2heaven on its own sources
-        run: java -jar target/2heaven-*.jar src/main/java
+        run: java -jar target/2heaven-*.jar src/main/java src/test/java
