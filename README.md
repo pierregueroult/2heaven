@@ -1,6 +1,6 @@
 # 2heaven
 
-A Java linter library (Maven artifact `engineering.pierre:2heaven`) with 16 built-in rules, usable both as a **library** and as a
+A Java linter library (Maven artifact `engineering.pierre:2heaven`) with 18 built-in rules, usable both as a **library** and as a
 **standalone command-line jar** — no build-tool plugin or code in the consuming
 project required.
 
@@ -25,6 +25,8 @@ project required.
 | `no-mutable-static-field` | WARNING | Mutable `static` fields |
 | `constructor-field-init` | WARNING | Field initializers that belong in a constructor |
 | `no-wait-notify-on-this` | WARNING | `wait()`/`notify()` on `this` |
+| `no-boxed-long-or-int` | WARNING | Boxed `Integer`/`Long` where `int`/`long` can be used |
+| `no-stream-of-integer` | WARNING | `Stream<Integer>` (even as an intermediate step) instead of `IntStream` |
 
 ## Use as a command-line tool (recommended for CI)
 
