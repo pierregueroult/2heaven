@@ -36,6 +36,7 @@ public final class Linter {
 
     public Linter(Collection<? extends Rule> rules) {
         this.rules = List.copyOf(rules);
+        super();
     }
 
     /// A linter pre-registered with all built-in rules.

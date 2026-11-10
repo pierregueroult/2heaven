@@ -22,6 +22,7 @@ import java.util.Optional;
 public final class SourceParser {
 
     private SourceParser() {
+        super();
     }
 
     /// Parses [file] into a [LintContext]. Files that fail to parse still

@@ -44,8 +44,13 @@ public final class NonDelegatingConstructorSuperLastRule implements Rule {
         if (context.compilationUnit().isEmpty()) {
             return violations;
         }
-        new TreeScanner<Void, Void>() {
-            private final Deque<Tree.Kind> enclosingClassKinds = new ArrayDeque<>();
+        class ConstructorScanner extends TreeScanner<Void, Void> {
+            private final Deque<Tree.Kind> enclosingClassKinds;
+
+            ConstructorScanner() {
+                this.enclosingClassKinds = new ArrayDeque<>();
+                super();
+            }
 
             @Override
             public Void visitClass(ClassTree node, Void unused) {
@@ -89,7 +94,8 @@ public final class NonDelegatingConstructorSuperLastRule implements Rule {
                 Tree.Kind kind = enclosingClassKinds.peek();
                 return kind == Tree.Kind.ENUM || kind == Tree.Kind.RECORD;
             }
-        }.scan(context.compilationUnit().get(), null);
+        }
+        new ConstructorScanner().scan(context.compilationUnit().get(), null);
         return violations;
     }
 

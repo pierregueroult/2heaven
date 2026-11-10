@@ -34,12 +34,12 @@ public final class PreferTryWithResourcesRule implements Rule {
         if (context.compilationUnit().isEmpty()) {
             return violations;
         }
-        new TreeScanner<Void, Void>() {
+        class TryScanner extends TreeScanner<Void, Void> {
             @Override
             public Void visitTry(TryTree node, Void unused) {
                 BlockTree finallyBlock = node.getFinallyBlock();
                 if (finallyBlock != null) {
-                    new TreeScanner<Void, Void>() {
+                    class CloseScanner extends TreeScanner<Void, Void> {
                         @Override
                         public Void visitMethodInvocation(MethodInvocationTree invocation, Void unused) {
                             if (invocation.getMethodSelect() instanceof MemberSelectTree select
@@ -49,11 +49,13 @@ public final class PreferTryWithResourcesRule implements Rule {
                             }
                             return super.visitMethodInvocation(invocation, unused);
                         }
-                    }.scan(finallyBlock, null);
+                    }
+                    new CloseScanner().scan(finallyBlock, null);
                 }
                 return super.visitTry(node, unused);
             }
-        }.scan(context.compilationUnit().get(), null);
+        }
+        new TryScanner().scan(context.compilationUnit().get(), null);
         return violations;
     }
 }
