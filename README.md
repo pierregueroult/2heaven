@@ -1,6 +1,6 @@
 # 2heaven
 
-A Java linter library (Maven artifact `engineering.pierre:2heaven`) with 19 built-in rules, usable both as a **library** and as a
+A Java linter library (Maven artifact `engineering.pierre:2heaven`) with 22 built-in rules, usable both as a **library** and as a
 **standalone command-line jar** — no build-tool plugin or code in the consuming
 project required.
 
@@ -28,6 +28,9 @@ project required.
 | `no-boxed-long-or-int` | WARNING | Boxed `Integer`/`Long` where `int`/`long` can be used |
 | `no-stream-of-integer` | WARNING | `Stream<Integer>` (even as an intermediate step) instead of `IntStream` |
 | `prefer-final-class` | WARNING | Non-`final` classes not designed for inheritance (abstract, sealed and in-file-extended classes are exempt) |
+| `no-wait-outside-while-loop` | WARNING | `wait()` not inside a `while` loop on a condition (lost-notification deadlock) |
+| `require-final-lock-object` | WARNING | `synchronized` monitors that are not a `private final Object` / `ReentrantLock` |
+| `no-reference-identity-comparison` | WARNING | `==` / `!=` on objects (compares references) instead of `equals()` |
 
 Each rule ships a fixture pair under `src/test/resources/fixtures/<rule-name>/`
 (`bad.java` is flagged, `good.java` is not). `RuleFixturesTest` verifies every

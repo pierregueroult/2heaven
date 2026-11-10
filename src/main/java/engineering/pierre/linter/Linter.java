@@ -10,15 +10,18 @@ import engineering.pierre.linter.rule.NoEmptyCatchRule;
 import engineering.pierre.linter.rule.NoMutableStaticFieldRule;
 import engineering.pierre.linter.rule.NoPrintStackTraceRule;
 import engineering.pierre.linter.rule.NoRawTypesRule;
+import engineering.pierre.linter.rule.NoReferenceIdentityComparisonRule;
 import engineering.pierre.linter.rule.NoStreamOfIntegerRule;
 import engineering.pierre.linter.rule.NoStreamSideEffectsRule;
 import engineering.pierre.linter.rule.NoStringConcatInLoopRule;
 import engineering.pierre.linter.rule.NoSwallowInterruptedExceptionRule;
 import engineering.pierre.linter.rule.NoUncheckedCastRule;
 import engineering.pierre.linter.rule.NoWaitNotifyOnThisRule;
+import engineering.pierre.linter.rule.NoWaitOutsideWhileLoopRule;
 import engineering.pierre.linter.rule.NonDelegatingConstructorSuperLastRule;
 import engineering.pierre.linter.rule.PreferFinalClassRule;
 import engineering.pierre.linter.rule.PreferTryWithResourcesRule;
+import engineering.pierre.linter.rule.RequireFinalLockObjectRule;
 import engineering.pierre.linter.rule.RequireNonNullObjectParamRule;
 
 import java.nio.file.Path;
@@ -64,7 +67,10 @@ public final class Linter {
                 new NoWaitNotifyOnThisRule(),
                 new NoBoxedLongOrIntRule(),
                 new NoStreamOfIntegerRule(),
-                new PreferFinalClassRule()
+                new PreferFinalClassRule(),
+                new NoWaitOutsideWhileLoopRule(),
+                new RequireFinalLockObjectRule(),
+                new NoReferenceIdentityComparisonRule()
         ));
     }
 
