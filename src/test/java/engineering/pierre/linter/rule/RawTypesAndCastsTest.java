@@ -5,7 +5,6 @@ import engineering.pierre.linter.LintViolation;
 import engineering.pierre.linter.Rule;
 import engineering.pierre.linter.SourceParser;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,8 +17,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /// Tests for no-raw-types and no-unchecked-cast.
 class RawTypesAndCastsTest {
 
-    @TempDir
-    Path tempDir;
+    private final Path tempDir;
+
+    RawTypesAndCastsTest() throws IOException {
+        this.tempDir = Files.createTempDirectory("lint-test");
+        super();
+    }
 
     private List<LintViolation> check(Rule rule, String source) throws IOException {
         Path file = tempDir.resolve("Sample.java");

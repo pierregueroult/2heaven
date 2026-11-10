@@ -1,7 +1,6 @@
 package engineering.pierre.linter;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,8 +12,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LinterTest {
 
-    @TempDir
-    Path tempDir;
+    private final Path tempDir;
+
+    LinterTest() throws IOException {
+        this.tempDir = Files.createTempDirectory("lint-test");
+        super();
+    }
 
     private Path writeSource(String fileName, String content) throws IOException {
         Path file = tempDir.resolve(fileName);
