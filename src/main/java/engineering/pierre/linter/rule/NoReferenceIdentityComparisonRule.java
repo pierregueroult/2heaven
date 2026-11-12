@@ -14,9 +14,11 @@ import engineering.pierre.linter.Rule;
 import engineering.pierre.linter.Severity;
 
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
+import javax.tools.DiagnosticCollector;
 import javax.tools.JavaCompiler;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
@@ -33,7 +35,7 @@ import java.util.Set;
 /// is false for an equal runtime-built String; use `equals()`.
 ///
 /// Exempt: comparisons against `null`, enum constants (identity is the
-/// correct semantics for singletons), primitive/unboxing comparisons, and
+/// correct semantics for singletons), java.lang.Class objects, primitive/unboxing comparisons, and
 /// operands whose type could not be attributed.
 ///
 /// Type attribution is done on a private parse+analyze pass: the shared
@@ -71,7 +73,7 @@ public final class NoReferenceIdentityComparisonRule implements Rule {
         try (StandardJavaFileManager fileManager =
                      compiler.getStandardFileManager(null, null, StandardCharsets.UTF_8)) {
             JavacTask task = (JavacTask) compiler.getTask(
-                    null, fileManager, null, List.of("-proc:none"), null,
+                    null, fileManager, new DiagnosticCollector<>(), List.of("-proc:none"), null,
                     fileManager.getJavaFileObjects(context.path().toFile()));
             CompilationUnitTree unit = task.parse().iterator().next();
             try {
@@ -116,9 +118,13 @@ public final class NoReferenceIdentityComparisonRule implements Rule {
                             || kind == TypeKind.TYPEVAR) {
                         return false;
                     }
-                    if (kind == TypeKind.DECLARED && type instanceof DeclaredType declared
-                            && declared.asElement().getKind() == ElementKind.ENUM) {
-                        return false; // enum identity comparison is correct
+                    if (kind == TypeKind.DECLARED && type instanceof DeclaredType declared) {
+                        var element = declared.asElement();
+                        if (element.getKind() == ElementKind.ENUM
+                                || element instanceof TypeElement typeElement
+                                && typeElement.getQualifiedName().contentEquals("java.lang.Class")) {
+                            return false; // enums and Class objects have identity semantics
+                        }
                     }
                     return kind == TypeKind.DECLARED || kind == TypeKind.ARRAY;
                 }
