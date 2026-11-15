@@ -9,6 +9,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 final class LinterTest {
 
@@ -118,11 +119,10 @@ final class LinterTest {
     }
 
     @Test
-    void unparsableFileDoesNotCrashAstRules() throws IOException {
+    void unparsableFileFailsExplicitly() throws IOException {
         Path file = writeSource("Broken.java", "}{\n");
 
-        List<LintViolation> violations = Linter.withBuiltInRules().lint(file);
-
-        assertTrue(violations.isEmpty(), "Expected no violations but got: " + violations);
+        var error = assertThrows(Linter.LintException.class, () -> Linter.withBuiltInRules().lint(file));
+        assertTrue(error.getMessage().contains("Broken.java:1:1"));
     }
 }

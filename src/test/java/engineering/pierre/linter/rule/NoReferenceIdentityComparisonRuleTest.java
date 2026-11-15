@@ -131,4 +131,40 @@ final class NoReferenceIdentityComparisonRuleTest {
 
         assertTrue(violations.isEmpty(), "Expected no violations but got: " + violations);
     }
+
+    @Test
+    void classTokensAndReflectiveTypesAreAccepted() throws IOException {
+        List<LintViolation> violations = check("""
+                import java.lang.reflect.ParameterizedType;
+                import java.lang.reflect.Type;
+                import java.util.List;
+
+                class Sample {
+                    boolean matches(Type type, ParameterizedType parameterized) {
+                        return type == String.class || int.class == type || type != double.class
+                                || List.class != parameterized.getRawType();
+                    }
+                    boolean same(Class<?> left, Class<?> right) {
+                        return left == right || left != right;
+                    }
+                }
+                """);
+
+        assertTrue(violations.isEmpty(), "Expected no violations but got: " + violations);
+    }
+
+    @Test
+    void userDefinedClassNamedClassIsStillFlagged() throws IOException {
+        List<LintViolation> violations = check("""
+                class Sample {
+                    static class Class {}
+                    boolean same(Class left, Class right) {
+                        return left == right;
+                    }
+                }
+                """);
+
+        assertEquals(1, violations.size());
+    }
+
 }

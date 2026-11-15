@@ -134,7 +134,7 @@ public final class Linter {
         for (Rule rule : rules) {
             violations.addAll(rule.check(context));
         }
-        return violations;
+        return Suppressions.filter(context, violations);
     }
 
     private static List<LintViolation> await(
@@ -145,7 +145,7 @@ public final class Linter {
             Thread.currentThread().interrupt();
             throw new LintException("Linting interrupted", e);
         } catch (ExecutionException e) {
-            throw new LintException("Linting failed", e.getCause());
+            throw new LintException("Linting failed: " + e.getCause().getMessage(), e.getCause());
         }
     }
 

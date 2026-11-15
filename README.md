@@ -1,6 +1,6 @@
 # 2heaven
 
-A Java linter library (Maven artifact `engineering.pierre:2heaven`) with 35 built-in rules, usable both as a **library** and as a
+A Java linter library (Maven artifact `engineering.pierre:2heaven`) with 37 built-in rules, usable both as a **library** and as a
 **standalone command-line jar** — no build-tool plugin or code in the consuming
 project required.
 
@@ -30,7 +30,7 @@ project required.
 | `prefer-final-class` | WARNING | Non-`final` classes not designed for inheritance (abstract, sealed and in-file-extended classes are exempt) |
 | `no-wait-outside-while-loop` | WARNING | `wait()` not inside a `while` loop on a condition (lost-notification deadlock) |
 | `require-final-lock-object` | WARNING | `synchronized` monitors that are not a `private final Object` / `ReentrantLock` |
-| `no-reference-identity-comparison` | WARNING | `==` / `!=` on objects (compares references) instead of `equals()` |
+| `no-reference-identity-comparison` | WARNING | `==` / `!=` on objects instead of `equals()` (excludes null checks, enums, and `java.lang.Class` objects) |
 | `no-public-mutable-fields` | WARNING | `public` non-`final` fields (breaks encapsulation) |
 | `no-extends-collection` | WARNING | Extending `ArrayList`/`HashMap`/... exposes the whole collection API; prefer composition |
 | `equals-overload-not-override` | WARNING | `equals(X)` with `X != Object` overloads but never overrides `equals(Object)` |
@@ -64,8 +64,44 @@ java -jar 2heaven.jar src/main/java
 
 - Accepts files and/or directories (directories are searched recursively for `.java`).
 - Prints one `path:line:col: SEVERITY [rule] message` line per violation.
-- Exit codes: `0` = no ERROR-severity violations, `1` = at least one ERROR
-  (warnings/info are reported but don't fail), `2` = usage or IO error.
+- Exit codes: `0` = no findings at the configured failure threshold, `1` = findings
+  at or above that threshold, `2` = configuration, usage, IO, or Java parse failure.
+  The default threshold is ERROR. Parse failures include source locations; files
+  with invalid syntax are never silently treated as clean.
+- Overlapping input paths are normalized and deduplicated.
+
+### Configuration and suppressions
+
+The CLI reads `.2heaven.properties` from the current directory when present.
+Use `--config path/to/lint.properties` to select an explicit file (a missing
+explicit file is an error). Unknown keys, rule names, and severity values fail.
+
+```properties
+failOn=WARNING
+rule.prefer-final-class=off
+rule.no-empty-catch=ERROR
+exclude=target/**,**/generated/**
+```
+
+Rules accept `off`, `INFO`, `WARNING`, or `ERROR` (case insensitive).
+`failOn` accepts `INFO`, `WARNING`, or `ERROR`. Exclusions are comma-separated
+Java filesystem globs matched against normalized paths relative to the current
+working directory. They apply only to CLI file discovery.
+
+Suppress a finding on a class, method, constructor, or field declaration:
+
+```java
+@SuppressWarnings("2heaven:no-reference-identity-comparison")
+boolean sameInstance(Object left, Object right) {
+    return left == right;
+}
+```
+
+Suppression covers the declaration and its nested declarations. Arrays of rule
+names and `@java.lang.SuppressWarnings` are supported. `2heaven:all` suppresses
+all rules within that declaration. Suppressions also work through the library
+API; they never hide parse failures. Add a comment explaining intentional
+exceptions.
 
 In GitHub Actions:
 
@@ -97,6 +133,15 @@ var violations = Linter.withBuiltInRules().lint(java.nio.file.Path.of("src/main/
 
 `lint(...)` accepts single files or collections and returns `LintViolation`s
 sorted by path, line and column.
+
+## Analysis limits
+
+Most rules inspect syntax rather than resolved project types. The reference
+identity rule performs a separate best-effort type analysis and skips unresolved
+operand types. Project classpaths and cross-file semantic analysis are not yet
+configurable; a successful run does not certify full type coverage. Compiler
+messages from this best-effort pass do not appear as raw CLI output. Syntax
+errors in the main parsing pass always fail the run.
 
 ## Building and releasing
 

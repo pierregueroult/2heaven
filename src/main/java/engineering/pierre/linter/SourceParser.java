@@ -4,6 +4,7 @@ import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.util.JavacTask;
 import com.sun.source.util.Trees;
 
+import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
 import javax.tools.JavaCompiler;
 import javax.tools.JavaFileObject;
@@ -25,13 +26,12 @@ public final class SourceParser {
         super();
     }
 
-    /// Parses [file] into a [LintContext]. Files that fail to parse still
-    /// produce a source-only context so line-based rules can run on them.
+    /// Parses [file], failing explicitly when Java syntax cannot be analyzed.
     public static LintContext parse(Path file) {
         String source = read(file);
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         if (compiler == null) {
-            return LintContext.sourceOnly(file, source);
+            throw new Linter.LintException("A full JDK with jdk.compiler is required", null);
         }
         try (StandardJavaFileManager fileManager =
                      compiler.getStandardFileManager(null, null, StandardCharsets.UTF_8)) {
@@ -40,10 +40,18 @@ public final class SourceParser {
             JavacTask task = (JavacTask) compiler.getTask(
                     null, fileManager, diagnostics, List.of("-proc:none"), null, fileObjects);
             CompilationUnitTree compilationUnit = task.parse().iterator().next();
+            var errors = diagnostics.getDiagnostics().stream()
+                    .filter(d -> d.getKind() == Diagnostic.Kind.ERROR)
+                    .map(d -> file + ":" + d.getLineNumber() + ":" + d.getColumnNumber()
+                            + ": " + d.getMessage(java.util.Locale.ROOT))
+                    .toList();
+            if (!errors.isEmpty()) {
+                throw new Linter.LintException(String.join("\n", errors), null);
+            }
             return new LintContext(file, source, source.lines().toList(),
                     Optional.of(compilationUnit), Optional.of(Trees.instance(task)));
         } catch (IOException e) {
-            return LintContext.sourceOnly(file, source);
+            throw new Linter.LintException("Cannot parse " + file, e);
         }
     }
 
